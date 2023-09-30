@@ -13,14 +13,10 @@ public class b1157 {
 		int[] cnt = new int[26];
 
 		for (int i = 0; i < s.length(); i++) {
-			for (int j = 0; j < s.length(); j++) {
-				if (i != j && s.charAt(i) == s.charAt(j)) {
-					cnt[s.charAt(i) - 65]++;
-				}
-			}
+			cnt[s.charAt(i) - 65]++;
 		}
 
-		int max = 0;
+		int max = -1;
 		char ch = '?';
 		for (int i = 0; i < 26; i++) {
 			if (cnt[i] > max) {
