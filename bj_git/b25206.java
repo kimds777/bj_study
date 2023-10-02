@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-// 다시풀어야함!! 
 public class b25206 {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -23,13 +22,14 @@ public class b25206 {
 		map.put("C0", 2.0);
 		map.put("D+", 1.5);
 		map.put("D0", 1.0);
+		map.put("F", 0.0);
 
 		for (int i = 0; i < 20; i++) {
 			str = br.readLine();
 			String[] strArr = str.split(" ");
 			String subjectScore = strArr[2];
 
-			if (!subjectScore.equals("P") && !subjectScore.equals("F")) { // 과목등급이 P가 아닌 경우
+			if (!subjectScore.equals("P")) { // 과목등급이 P가 아닌 경우
 				double grade = Double.parseDouble(strArr[1]);
 
 				avg += map.get(subjectScore) * grade;
