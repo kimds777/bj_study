@@ -3,61 +3,39 @@ package bj_git;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
-public class b2485 { // 수정해야함!
+public class b2485 {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N = Integer.parseInt(br.readLine());
 
-		List<Integer> trees = new ArrayList<>();
+		int N = Integer.parseInt(br.readLine()); // 심어진 나무 갯수 입력
+
+		int[] trees = new int[N]; // 나무 위치를 저장할 배열
+		int preTree = 0; // 이전 나무 위치
+		int gcd = 0; // 최대 공약수
 		for (int i = 0; i < N; i++) {
-			trees.add(Integer.parseInt(br.readLine()));
-		}
+			trees[i] = Integer.parseInt(br.readLine()); // 나무 위치 저장
 
-		int gcd = trees.get(N - 1);
-		List<Integer> distance = getDistance(trees, trees.size());
-		for (int d = 0; d < distance.size() - 1; d++) {
-			int tempGcd = getGcd(Math.max(distance.get(d), distance.get(d + 1)),
-					Math.min(distance.get(d), distance.get(d + 1)));
-
-			if (tempGcd < gcd) {
-				gcd = tempGcd;
+			if (i != 0) { // 첫번째 나무 위치가 아닌 경우
+				int distance = trees[i] - preTree; // 현재 나무 위치 - 이전 나무 위치 = 나무 간격
+				gcd = getGcd(gcd, distance); // 최대 공약수 계산
 			}
+
+			preTree = trees[i]; // 현재 나무 위치를 이전 나무 위치에 저장
 		}
 
-		int cnt = 0;
-		for (int d : distance) {
-			if (d != gcd) {
-				cnt += d / gcd - 1;
-			}
-		}
-		
-		System.out.println(cnt);
+		int result = ((trees[N - 1] - trees[0]) / gcd + 1) - N; // (마지막 나무 위치 - 첫 번째 나무 위치) / 최대공약수 + 1 - 나무의 수
+
+		System.out.println((result));
 
 	}
 
-	private static List<Integer> getDistance(List<Integer> trees, int N) {
-		List<Integer> list = new ArrayList<>();
-
-		int min = Integer.MAX_VALUE;
-		for (int i = 0; i < N - 1; i++) {
-			int tree1 = trees.get(i);
-			int tree2 = trees.get(i + 1);
-
-			int minus = Math.abs(tree1 - tree2);
-			list.add(minus);
+	private static int getGcd(int first, int i) { // 최대 공약수를 구하는 메소드
+		while (i > 0) {
+			int n = i;
+			i = first % i;
+			first = n;
 		}
-
-		return list;
-	}
-
-	private static int getGcd(int a, int b) {
-		if (b == 0) {
-			return a;
-		} else {
-			return getGcd(b, a % b);
-		}
+		return first;
 	}
 }
